@@ -1,5 +1,5 @@
 import { Field, Form, Formik } from 'formik'
-import React from 'react'
+import React, {useState} from 'react'
 import { useSelector, useDispatch } from "react-redux";
 import { addData, deleteData, updateData } from "./FeildCrud";
 
@@ -7,20 +7,30 @@ import { addData, deleteData, updateData } from "./FeildCrud";
 const CrudBtn = () => {
   const dataItem = useSelector((state) => state.feilds.data)
   const initialval = useSelector((state) => state.feilds.initialval)
-  console.log("data=>", dataItem);
+  // console.log("data=>", dataItem);
   const dispatch = useDispatch();
+  const [editIndex, setEditIndex] = useState(null);
+
+  const editData = (i) => {
+    setEditIndex(i);
+  }
 
   return (
     <div>
       <h1>Redux CRUD</h1>
       <Formik
         enableReinitialize
-        initialValues={initialval}
+        initialValues={editIndex !== null ? dataItem[editIndex] : initialval}
 
         onSubmit={(values,{resetForm}) => {
           console.log(values);
-          dispatch(addData(values))
-          resetForm()
+          if (editIndex === null) {
+            dispatch(addData(values));
+          } else {
+            dispatch(updateData({ index: editIndex, updateItem: values }));
+            setEditIndex(null); // Reset editIndex after updating
+          }
+          resetForm();
 
         }}
       >
@@ -29,17 +39,17 @@ const CrudBtn = () => {
           Name : <Field
             type="text"
             name="name"
-          ></Field>
+          ></Field><br/>
 
           Email : <Field
             type="email"
             name="email"
-          ></Field>
+          ></Field><br/>
 
           Password : <Field
             type="password"
             name="password"
-          ></Field>
+          ></Field><br/><br/>
 
           <button type='submit'>SUBMIT</button>
 
@@ -66,7 +76,7 @@ const CrudBtn = () => {
               <td>{item.password}</td>
               <td>
                 <button type='button' onClick={() => dispatch(deleteData(i))}>DELETE</button>&nbsp;
-                <button type='button' onClick={() => dispatch(updateData(i))}>EDIT</button>
+                <button type='button' onClick={() => editData(i)}>EDIT</button>
               </td>
             </tr>
           ))
@@ -81,3 +91,5 @@ const CrudBtn = () => {
 }
 
 export default CrudBtn
+
+
