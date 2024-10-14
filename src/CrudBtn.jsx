@@ -23,7 +23,7 @@ const CrudBtn = () => {
         initialValues={editIndex !== null ? dataItem[editIndex] : initialval}
 
         onSubmit={(values,{resetForm}) => {
-          console.log(values);
+          // console.log(values);
           if (editIndex === null) {
             dispatch(addData(values));
           } else {

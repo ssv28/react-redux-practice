@@ -10,7 +10,6 @@ export const FeildCrud = createSlice({
             password: ""
         },
        
-
     },
 
     reducers: {
@@ -24,7 +23,7 @@ export const FeildCrud = createSlice({
             state.data.splice(action.payload, 1)
         },
 
-        updateData: (state, action,initialval) => {
+        updateData: (state, action) => {
             console.log("update data => ", action.payload);
             const { index, updateItem } = action.payload;
             state.data.splice(index, 1, updateItem);
