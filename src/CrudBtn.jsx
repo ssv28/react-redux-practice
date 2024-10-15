@@ -6,7 +6,7 @@ import './App.css';
 
 const CrudBtn = () => {
   const dataItem = useSelector((state) => state.feilds.data);
-  console.log(dataItem);
+  // console.log(dataItem);
   
   const initialval = useSelector((state) => state.feilds.initialval);
   const dispatch = useDispatch();
